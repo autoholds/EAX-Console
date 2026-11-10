@@ -160,22 +160,8 @@ VB-Audio Virtual Cable is the bridge: Orbital writes your processed voice to a v
 
 ---
 
-## Special thanks
+## Thanks
 
-A huge thank you to **[@TWODEMONBROTHERS](https://github.com/TWODEMONBROTHERS/)** — your work, ideas, and support shaped this project in ways that go beyond what shows in the commit log. This would not exist without you.
+**[@TWODEMONBROTHERS](https://github.com/TWODEMONBROTHERS/)** — built the full reverb system and the equalizer. The core of what makes this sound right is his work.
 
----
-
-## Credits
-
-- **[Orbital](https://github.com/ALMASONYH/OctopusEAX)** — the audio engine this project is built on
-- **Creative Labs** — original EAX Console UI, sprite sheets and theme assets
-- **VB-Audio** — [Virtual Cable](https://vb-audio.com/Cable/)
-
----
-
-## Legal
-
-The Creative SB Live! 24-bit External UI assets, sprite sheets and theme files are property of Creative Labs. This project re-implements the interface from scratch and does not redistribute any Creative binaries or installers. The bundled `creative\` folder in release builds contains only theme resources copied from a legitimately installed Creative driver package.
-
-The source code of this project is provided as-is under the MIT License.
+**[@ALMASONYH](https://github.com/ALMASONYH/)** — the Orbital engine this runs on.
