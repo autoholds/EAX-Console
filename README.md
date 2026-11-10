@@ -144,7 +144,7 @@ EAX UI/
 
 The EAX Console UI reads the original Creative sprite sheets (`assets/`) and reconstructs every control — title bar, tab strip, sliders, checkboxes, combo boxes — using GDI+ owner-draw. No MFC, no Creative DLLs, no COM.
 
-The audio side uses **Orbital**, a pure C++ WASAPI engine that runs the reverb rooms, voice masks, noise isolation, equalizer and all mixing entirely in software.
+The audio side uses **EAX Console**, a pure C++ WASAPI engine that runs the reverb rooms, voice masks, noise isolation, equalizer and all mixing entirely in software.
 
 VB-Audio Virtual Cable is the bridge: EAX Console writes your processed voice to a virtual cable, and Discord or your game reads from that same cable as its microphone input.
 
