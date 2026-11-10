@@ -2050,7 +2050,7 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
             if (InChrome(b, x, y)) {
                 switch (b) {
                 case CH_DEFAULT:
-                    g_efxCat = 0; g_selectedPreset = 8; g_scrollOffset = 3; g_effectsAmount = 100; g_enableEffects = true;
+                    g_efxCat = 0; g_selectedPreset = 0; g_scrollOffset = 0; g_effectsAmount = 50; g_enableEffects = true;
                     break;
                 case CH_APP1: LaunchCreativeTool(L"SurMixer.exe", L"Launching Creative Surround Mixer"); break;
                 case CH_APP2: CFG::Open(hWnd); break;
