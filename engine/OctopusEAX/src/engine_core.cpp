@@ -306,6 +306,7 @@ struct Shared {
     std::atomic<bool> appHear{false};
     std::atomic<bool> appOnly{false};
     std::atomic<bool> appMute{false};
+    std::atomic<bool> monMute{false};
     std::atomic<int>  pitchHz{0};
     std::atomic<int>  voiceSize{100};
     std::atomic<int>  voiceHz{0};
@@ -1400,6 +1401,7 @@ static void audioThread() {
                         while (q > seen && !g.meterPeak.compare_exchange_weak(seen, q)) {}
                     }
                     if (feedCab.live() && !feedCab.push(inter.data(), frames)) { feedLost = true; break; }
+                    if (g.monMute.load()) std::fill(interMon.begin(), interMon.end(), 0.0f);
                     if (feedSpk.live() && !feedSpk.push(interMon.data(), frames)) {
                         feedSpk.release();
                         if (acSpk) { acSpk->Stop(); acSpk->Release(); acSpk = nullptr; }
@@ -1467,7 +1469,7 @@ static const KeyDef kKeys[] = {
     {"eq4", &g.eqDb[4], nullptr}, {"eq5", &g.eqDb[5], nullptr}, {"eq6", &g.eqDb[6], nullptr}, KI(eqLevel), KB(eqOn), KI(eqPreset),
     KB(isolate), KI(isoMode), KI(isoLevel), KI(gateLevel), KI(gateLo), KI(gateMid), KI(gateHi), KI(gateOut),
     KB(toneOn), KI(toneLo), KI(toneMid), KI(toneHi), KI(tonePadX), KI(tonePadY), KI(toneBaseLo), KI(toneBaseMid), KI(toneBaseHi),
-    KI(clipGain), KB(clipHear), KB(clipToMic), KB(appHear), KB(appOnly), KB(appMute), KI(appGain), KI(clipSpeed), KB(clipKeepPitch), KB(clipFollow),
+    KI(clipGain), KB(clipHear), KB(clipToMic), KB(appHear), KB(appOnly), KB(appMute), KB(monMute), KI(appGain), KI(clipSpeed), KB(clipKeepPitch), KB(clipFollow),
     KI(pitchHz), KI(voiceSize), KI(voiceHz), KI(voiceMacro), KI(voiceRatio), KI(voiceMask), KI(voiceTargetHz), KI(voiceSpeed), KB(voiceKeepPitch),
     KI(voiceLagMs), KB(glitchHold), KB(glitchKeyHeld), KB(glitchArmed), KI(glitchKey), KI(glitchStyle), KI(meterPeak),
 };

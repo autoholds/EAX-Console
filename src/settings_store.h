@@ -44,7 +44,7 @@ inline std::vector<EaxVar>& EaxVars() {
 inline const char* kEngineKeys[] = {
     "monitor", "rawMic", "cardMic", "wide", "echoOn", "changeOn", "isolate", "isoMode", "isoLevel", "gateLevel", "gateLo", "gateMid", "gateHi", "gateOut",
     "toneOn", "toneLo", "toneMid", "toneHi", "tonePadX", "tonePadY", "toneBaseLo", "toneBaseMid", "toneBaseHi",
-    "clipGain", "clipHear", "clipToMic", "appHear", "appOnly", "appMute", "appGain", "clipSpeed", "clipKeepPitch", "clipFollow",
+    "clipGain", "clipHear", "clipToMic", "appHear", "appOnly", "appMute", "monMute", "appGain", "clipSpeed", "clipKeepPitch", "clipFollow",
     "pitchHz", "voiceSize", "voiceMacro", "voiceRatio", "voiceMask", "voiceSpeed", "voiceKeepPitch", "glitchArmed", "glitchKey", "glitchStyle",
 };
 inline std::wstring lastSetup;

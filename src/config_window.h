@@ -194,6 +194,7 @@ inline void BuildPages() {
     Check(0, L"Wide echo in headphones", X + 130, Y + 46, 180, Gi("wide"), Si("wide"));
     Check(0, L"Raw mic", X + 330, Y + 46, 90, Gi("rawMic"), Si("rawMic"));
     Check(0, L"Card mic sound", X + 440, Y + 46, 140, Gi("cardMic"), Si("cardMic"));
+    Check(0, L"Cable only (mute monitor)", X, Y + 66, 200, Gi("monMute"), [](int v) { orb::SetI("monMute", v); });
     Group(0, X - 14, Y + 84, 656, 188, L"Microphone");
     Label(0, L"Mic level", X, Y + 108, 80);
     Slider(0, X + 90, Y + 104, 440, 0, 1000, [] { return g_micBase; }, [](int v) { g_micBase = v; }, Pct);
