@@ -146,7 +146,7 @@ The EAX Console UI reads the original Creative sprite sheets (`assets/`) and rec
 
 The audio side uses **Orbital**, a pure C++ WASAPI engine that runs the reverb rooms, voice masks, noise isolation, equalizer and all mixing entirely in software.
 
-VB-Audio Virtual Cable is the bridge: Orbital writes your processed voice to a virtual cable, and Discord or your game reads from that same cable as its microphone input.
+VB-Audio Virtual Cable is the bridge: EAX Console writes your processed voice to a virtual cable, and Discord or your game reads from that same cable as its microphone input.
 
 ---
 
