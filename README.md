@@ -5,8 +5,7 @@
 <h1 align="center">EAX Console</h1>
 
 <p align="center">
-  A pixel-exact Win32 recreation of the Creative Sound Blaster Audigy 2 NX EAX Console for Windows 10/11,<br>
-  powered by the <a href="https://github.com/ALMASONYH/OctopusEAX">OctopusEAX / Orbital</a> audio engine.
+  Creative SB Live! 24-bit External EAX Console rebuilt for Windows 10/11.
 </p>
 
 <p align="center">
@@ -19,7 +18,7 @@
 
 ## What is this
 
-This project clones the full Creative Audigy 2 NX EAX Console UI in C++17 using Win32 and GDI+. Every pixel, every tab, every control matches the original — but the backend is a modern WASAPI audio engine instead of the original Creative drivers.
+The SB Live! 24-bit External EAX Console rebuilt from scratch in C++17 using Win32 and GDI+. Every pixel, tab, and control matches the original — running on a modern WASAPI audio engine instead of Creative's drivers.
 
 The result is three standalone executables that work on any modern Windows PC without installing Creative drivers:
 
@@ -75,7 +74,7 @@ The result is three standalone executables that work on any modern Windows PC wi
 - Windows 10 or 11, 64-bit
 - A microphone
 - VB-Audio Virtual Cable (free — EAX.exe offers to download and set it up)
-- Creative Audigy 2 NX drivers installed **or** use the `publish\` build (which bundles the theme files)
+- Creative SB Live! 24-bit External drivers installed **or** use the `publish\` build (which bundles the theme files)
 
 ---
 
@@ -112,7 +111,7 @@ set GXX=C:\msys64\mingw64\bin\g++.exe
 set RC=C:\msys64\mingw64\bin\windres.exe
 
 %RC% -I res res\eax_res.rc -O coff -o res\eax_res.o
-%GXX% -O2 -std=c++17 -c engine\OctopusEAX\src\engine_core.cpp -o res\engine_core.o -Iengine\OctopusEAX\shim -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS -w
+%GXX% -O2 -std=c++17 -c engine\src\engine_core.cpp -o res\engine_core.o -Iengine\shim -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS -w
 %GXX% -O2 -std=c++17 -municode -mwindows -static -static-libgcc -static-libstdc++ ^
     src\eax_console.cpp res\eax_res.o res\engine_core.o -o EAX.exe ^
     -lwinmm -lcomdlg32 -lcomctl32 -lgdiplus -lgdi32 -luser32 -lole32 ^
@@ -135,7 +134,7 @@ EAX UI/
 │   ├── mixer_console.cpp     Surround Mixer
 │   └── portable_paths.h      Locates Creative theme files (bundled or installed)
 ├── engine/
-│   └── OctopusEAX/           Orbital audio engine (WASAPI, C++17)
+│   └── engine/               Orbital audio engine (WASAPI, C++17)
 │       └── src/
 │           ├── engine_core.cpp
 │           ├── engine_api.h
@@ -155,7 +154,7 @@ EAX UI/
 
 The EAX Console UI reads the original Creative sprite sheets (`assets/`) and reconstructs every control — title bar, tab strip, sliders, checkboxes, combo boxes — using GDI+ owner-draw. No MFC, no Creative DLLs, no COM.
 
-The audio side uses **Orbital** (OctopusEAX), a pure C++ WASAPI engine that runs the reverb rooms, voice masks, noise isolation, equalizer and all mixing entirely in software.
+The audio side uses **Orbital**, a pure C++ WASAPI engine that runs the reverb rooms, voice masks, noise isolation, equalizer and all mixing entirely in software.
 
 VB-Audio Virtual Cable is the bridge: Orbital writes your processed voice to a virtual cable, and Discord or your game reads from that same cable as its microphone input.
 
@@ -169,7 +168,7 @@ A huge thank you to **[@TWODEMONBROTHERS](https://github.com/TWODEMONBROTHERS/)*
 
 ## Credits
 
-- **[OctopusEAX / Orbital](https://github.com/ALMASONYH/OctopusEAX)** — the audio engine this project is built on
+- **[Orbital](https://github.com/ALMASONYH/OctopusEAX)** — the audio engine this project is built on
 - **Creative Labs** — original EAX Console UI, sprite sheets and theme assets
 - **VB-Audio** — [Virtual Cable](https://vb-audio.com/Cable/)
 
@@ -177,6 +176,6 @@ A huge thank you to **[@TWODEMONBROTHERS](https://github.com/TWODEMONBROTHERS/)*
 
 ## Legal
 
-The Creative Sound Blaster Audigy 2 NX UI assets, sprite sheets and theme files are property of Creative Labs. This project re-implements the interface from scratch and does not redistribute any Creative binaries or installers. The bundled `creative\` folder in release builds contains only theme resources copied from a legitimately installed Creative driver package.
+The Creative SB Live! 24-bit External UI assets, sprite sheets and theme files are property of Creative Labs. This project re-implements the interface from scratch and does not redistribute any Creative binaries or installers. The bundled `creative\` folder in release builds contains only theme resources copied from a legitimately installed Creative driver package.
 
 The source code of this project is provided as-is under the MIT License.
