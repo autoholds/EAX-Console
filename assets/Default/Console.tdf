@@ -1,0 +1,13 @@
+[VERSION]
+VERSION=1.0.11.0
+LANGUAGE=ENG
+[ENGINE]
+VER=1
+[BITMAP]
+16012=0,0,0,0,Share_Bttn_CreativeLogo.bmp
+16015=0,0,0,0,Share_Bttn_GradMnu32_Help.bmp
+16016=0,0,0,0,Share_Bttn_GradMnu32_HowDoI.bmp
+16010=0,0,0,0,Share_Bttn_GradMnu32_Close.bmp
+16011=0,0,0,0,Share_Bttn_GradMnu32_Minimise.bmp
+16004=16,0,16,0,Console_Bttn.bmp
+16000=126,70,382,270,Console_BG212.bmp

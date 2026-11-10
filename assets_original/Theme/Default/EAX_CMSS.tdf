@@ -1,0 +1,14 @@
+[VERSION]
+VERSION=1.0.21.0
+LANGUAGE=ENG
+[ENGINE]
+VER=1
+[BITMAP]
+16000=0,12,0,12,EAX_Sldr_Vertical14.bmp
+16001=0,0,0,0,EAX_Bttn_Checkbox.bmp
+16003=8,8,8,8,EAX_Spr_GreyBoxBG.bmp
+16004=8,8,8,8,EAX_Spr_WhiteBG.bmp
+16014=0,0,0,0,EAX_Spr_CMSSBG.bmp
+16005=0,0,0,0,EAX_Bttn_Radio.bmp
+16002=0,0,0,0,EAX_Bttn_BalH.bmp
+16006=0,0,0,0,EAX_Spr_CMSSBG2.bmp

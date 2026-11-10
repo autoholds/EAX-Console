@@ -1,0 +1,11 @@
+[VERSION]
+VERSION=1.0.10.0
+LANGUAGE=ENG
+[ENGINE]
+VER=1
+[BITMAP]
+16012=0,0,0,0,Share_Bttn_CreativeLogo.bmp
+16006=0,0,0,0,Share_Bttn_GradMnu32_Close.bmp
+16017=0,0,0,0,Share_Bttn_GradMnu32_Minimise.bmp
+16003=16,0,16,0,Settings_Bttn.bmp
+16004=16,36,304,174,Settings_BG.bmp

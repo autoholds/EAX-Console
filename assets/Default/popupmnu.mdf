@@ -1,0 +1,8 @@
+[PopupMenu]
+MenuBkg=255,255,255
+MenuFrg=0,0,0
+MenuHBkg=0,127,255
+MenuHFrg=255,255,255
+MenuBorder=193,193,193
+Transparency=230
+Font=11,N,Tahoma

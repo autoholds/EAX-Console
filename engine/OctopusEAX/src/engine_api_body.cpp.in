@@ -1,0 +1,236 @@
+
+// ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════
+// Export API for the EAX Console clone (everything above is app.cpp lines 1..1432, unchanged)
+// ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════
+#include "engine_api.h"
+static void tipsColour() {}
+static bool eqOnPreset() { return false; }
+static void maskLabel(int, wchar_t*) {}
+static std::thread* gAudioTh = nullptr; static std::thread* gCableTh = nullptr;
+
+// UI-region helpers of app.cpp the config page needs, copied verbatim
+static std::vector<Dev> speakerDevices() {
+    std::vector<Dev> out;
+    for (auto& d : listDevices(eRender))
+        if (!nameContains(d.name, L"CABLE") && !cableAdapter(d)) out.push_back(d);
+    return out;
+}
+static std::vector<Dev> realMics() {
+    std::vector<Dev> all = listDevices(eCapture), mics;
+    for (const Dev& d : all) if (!cableCapture(d)) mics.push_back(d);
+    return mics;
+}
+static int clampInt(int v, int lo, int hi) { return v < lo ? lo : (v > hi ? hi : v); }
+static std::atomic<int>& toneBase(int k) { return k == 0 ? g.toneBaseLo : (k == 1 ? g.toneBaseMid : g.toneBaseHi); }
+static std::atomic<int>& toneKnob(int k) { return k == 0 ? g.toneLo : (k == 1 ? g.toneMid : g.toneHi); }
+static int toneTilt(int pad) { return (pad * TONE_RANGE + (pad >= 0 ? TONE_PAD_RANGE / 2 : -TONE_PAD_RANGE / 2)) / TONE_PAD_RANGE; }
+static int toneOf(int base, int tilt) { return clampInt(base + tilt, -TONE_RANGE, TONE_RANGE); }
+static int toneRoom(int fromBase) { return clampInt(fromBase * TONE_PAD_RANGE / TONE_RANGE, 0, TONE_PAD_RANGE); }
+
+struct KeyDef { const char* name; std::atomic<int>* i; std::atomic<bool>* b; };
+#define KI(n) {#n, &g.n, nullptr}
+#define KB(n) {#n, nullptr, &g.n}
+static const KeyDef kKeys[] = {
+    KI(micLevel), KI(amount), KI(preset), KB(enabled), KI(echoOn), KI(changeOn), KB(monitor), KB(rawMic), KB(cardMic), KB(cmss), KB(wide),
+    {"eq0", &g.eqDb[0], nullptr}, {"eq1", &g.eqDb[1], nullptr}, {"eq2", &g.eqDb[2], nullptr}, {"eq3", &g.eqDb[3], nullptr},
+    {"eq4", &g.eqDb[4], nullptr}, {"eq5", &g.eqDb[5], nullptr}, {"eq6", &g.eqDb[6], nullptr}, KI(eqLevel), KB(eqOn), KI(eqPreset),
+    KB(isolate), KI(isoMode), KI(isoLevel), KI(gateLevel), KI(gateLo), KI(gateMid), KI(gateHi), KI(gateOut),
+    KB(toneOn), KI(toneLo), KI(toneMid), KI(toneHi), KI(tonePadX), KI(tonePadY), KI(toneBaseLo), KI(toneBaseMid), KI(toneBaseHi),
+    KI(clipGain), KB(clipHear), KB(clipToMic), KB(appHear), KB(appOnly), KI(appGain), KI(clipSpeed), KB(clipKeepPitch), KB(clipFollow),
+    KI(pitchHz), KI(voiceSize), KI(voiceHz), KI(voiceMacro), KI(voiceRatio), KI(voiceMask), KI(voiceTargetHz), KI(voiceSpeed), KB(voiceKeepPitch),
+    KI(voiceLagMs), KB(glitchHold), KB(glitchKeyHeld), KB(glitchArmed), KI(glitchKey), KI(glitchStyle), KI(meterPeak),
+};
+static const KeyDef* findKey(const char* k) { for (const KeyDef& d : kKeys) if (!strcmp(d.name, k)) return &d; return nullptr; }
+
+
+// ---- Program on the mic: UI-region helpers of app.cpp copied verbatim (3684 appEndNote, 3699 healPrograms, 5654 appFollowWanted) ----
+static std::wstring appWanted;
+static std::wstring appEndNote() {
+    switch (gApp.state.load()) {
+    case clip::ProgramTap::GONE:
+        return gApp.name + L" closed";
+    case clip::ProgramTap::TOO_OLD:
+        return L"Needs Windows 10 (2004) or newer";
+    case clip::ProgramTap::REFUSED: {
+        wchar_t t[96];
+        swprintf_s(t, 96, L"Windows blocked this app's sound (0x%08lx)", (unsigned long)gApp.refusal.load());
+        return t;
+    }
+    }
+    return L"";
+}
+static void healPrograms() {
+    static std::atomic<bool> busy{false};
+    const clip::ParkMemory memory = gApp.hijack.memory;
+    if (memory.programs().empty() || busy.exchange(true)) return;
+    std::vector<std::wstring> skip;
+    if (gApp.chosen()) {
+        std::vector<DWORD> tree;
+        clip::collectTree(gApp.pid, tree);
+        for (DWORD p : tree) { const std::wstring exe = clip::imagePath(p); if (!exe.empty()) skip.push_back(exe); }
+    }
+    std::thread([memory, skip] {
+        const HRESULT com = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+        clip::healParked(memory, skip);
+        if (SUCCEEDED(com)) CoUninitialize();
+        busy = false;
+    }).detach();
+}
+static void fillProgramList() {
+    const DWORD keep = gApp.chosen() ? gApp.pid : 0;
+    uiApps = clip::listPrograms();
+    if (keep && std::none_of(uiApps.begin(), uiApps.end(), [keep](const clip::Program& p) { return p.pid == keep; }))
+        uiApps.insert(uiApps.begin(), clip::Program{keep, gApp.name});
+}
+static bool appFollowWanted() {
+    if (appWanted.empty() || gApp.chosen()) return false;
+    for (const clip::Program& p : clip::listPrograms())
+        if (_wcsicmp(p.name.c_str(), appWanted.c_str()) == 0) { appNote.clear(); appPick(p); fillProgramList(); return true; }
+    return false;
+}
+
+namespace orb {
+void Start() {
+    if (gAudioTh) return;
+    g.quit = false; g.restart = true;
+    timeBeginPeriod(1);
+    gAudioTh = new std::thread(audioThread);
+    gCableTh = new std::thread(provisionCable);   // Orbital's VB-CABLE watcher (status, "What U Hear" rename)
+}
+void Stop() {
+    if (!gAudioTh) return;
+    g.quit = true; gApp.stop(); gClip.stop(); gHearTap.stop();
+    gAudioTh->join(); delete gAudioTh; gAudioTh = nullptr;
+    if (gCableTh) { gCableTh->join(); delete gCableTh; gCableTh = nullptr; }
+    timeEndPeriod(1);
+}
+bool Running() { return gAudioTh != nullptr; }
+void Restart() { g.restart = true; }
+void SetEnabled(bool on) { g.enabled = on; }
+void SetPreset(int i) { g.preset = i; }
+void SetAmount(int a) { g.amount = a; }
+void SetMonitor(bool on) { g.monitor = on; }
+void SetCmss(bool on) { g.cmss = on; }
+void SetCmssMode(int mode) { g.cmssMode = std::clamp(mode, 0, 1); }
+void SetCmssWidth(int pct) { g.cmssWidth = std::clamp(pct, -100, 100); }
+void SetCmssDepth(int pct) { g.cmssDepth = std::clamp(pct, 0, 100); }
+void SetWide(bool on) { g.wide = on; }
+void SetEq(const int* db, int level, bool on) { for (int i = 0; i < 7; i++) g.eqDb[i] = db[i]; g.eqLevel = level; g.eqOn = on; ++g.eqVersion; }
+void SetMicLevel(int v) { g.micLevel = v; }
+void SetIsolate(bool on, int mode, int level) { g.isolate = on; g.isoMode = mode; g.isoLevel = level; ++g.isoVersion; }
+void SetVoice(int pitchHz, int size, int ratio, int mask, int speed, bool keepPitch) {
+    g.pitchHz = pitchHz; g.voiceSize = size; g.voiceRatio = ratio; g.voiceMask = mask; g.voiceSpeed = speed; g.voiceKeepPitch = keepPitch;
+}
+void SetDevices(const wchar_t* micId, const wchar_t* spkId) {
+    { std::lock_guard<std::mutex> lk(g.devMx); g.micId = micId ? micId : L""; g.spkId = spkId ? spkId : L""; }
+    g.restart = true;
+}
+int Meter() { return g.meterPeak.load(); }
+void Status(wchar_t* out, int n) { std::lock_guard<std::mutex> lk(g.devMx); wcsncpy_s(out, n, g.cable, _TRUNCATE); }
+bool StatusWarn() { return g.statusWarn.load(); }
+int CableStage() { return g.cableStage.load(); }
+bool NeedCable() { return g.needCable.load(); }
+void InstallCable(HWND owner) { startCableDownload(owner); }
+void RunCableSetup(HWND owner) { runCableSetup(owner); }
+void DefaultDevices(std::wstring& mic, std::wstring& spk) { CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED); mic = defaultDeviceId(eCapture); spk = defaultDeviceId(eRender); }
+
+int GetI(const char* key) { const KeyDef* d = findKey(key); return !d ? 0 : d->i ? d->i->load() : d->b->load() ? 1 : 0; }
+void SetI(const char* key, int v) {
+    const KeyDef* d = findKey(key); if (!d) return;
+    if (d->i) *d->i = v; else *d->b = v != 0;
+    if (!strncmp(key, "eq", 2)) ++g.eqVersion;
+    else if (!strncmp(key, "gate", 4) || !strncmp(key, "iso", 3)) ++g.isoVersion;
+    else if (!strncmp(key, "tone", 4)) ++g.toneVersion;
+}
+static std::vector<Device> conv(const std::vector<Dev>& v) { std::vector<Device> o; for (auto& d : v) o.push_back({ d.name, d.id }); return o; }
+static void ensureCom() { CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED); }   // the UI thread never initialised COM
+std::vector<Device> Mics() { ensureCom(); return conv(realMics()); }
+std::vector<Device> Speakers() { ensureCom(); return conv(speakerDevices()); }
+void CurrentDevices(std::wstring& m, std::wstring& s) { std::lock_guard<std::mutex> lk(g.devMx); m = g.micId; s = g.spkId; }
+
+int RoomCount() { return NUM_CARD_PRESETS; }
+std::wstring RoomName(int i) { std::wstring w; for (const char* p = CARD_PRESETS[i].name; *p; ++p) w += (wchar_t)(unsigned char)*p; return w; }
+int MaskCount() { return voice::NUM_MASKS; }
+int XfiMaskCount() { return voice::NUM_XFI_MASKS; }
+int OwnMaskCount() { return voice::NUM_OWN_MASKS; }
+std::wstring MaskName(int i) { return voice::MASKS[i].name; }
+int OwnMask(int k) { return voice::OWN_ORDER[k]; }
+void PickMask(int i) {
+    if (i < 0 || i >= voice::NUM_MASKS) return;
+    g.voiceMask = i; g.voiceRatio = voice::MASKS[i].ratio; g.voiceSize = voice::MASKS[i].size; g.pitchHz = 0; g.voiceMacro = 0;
+}
+void ToneFlat();
+void ResetVoice() {   // Default: every voice effect off - neutral mask, no pitch/size/speed change, flat tone, no glitch
+    PickMask(voice::MASK_NEUTRAL); g.voiceSpeed = 100; g.voiceKeepPitch = true; g.glitchHold = false; g.toneOn = false; ToneFlat();
+}
+void ApplyVoiceMacro(int v) {
+    v = v < -100 ? -100 : (v > 100 ? 100 : v);
+    if (v > -5 && v < 5) v = 0;
+    g.voiceMacro = v; g.voiceRatio = 1000; g.pitchHz = -v / 2;
+    int sz = 100 + v / 4; g.voiceSize = sz < 60 ? 60 : (sz > 150 ? 150 : sz);
+}
+int GlitchStyleCount() { return voice::NUM_GLITCH_STYLES; }
+std::wstring GlitchStyleName(int i) { return voice::GLITCH_LOOKS[i].name; }
+int EqPresetCount() { return eqb::NUM_EQ_PRESETS; }
+std::wstring EqPresetName(int i) { return eqb::EQ_PRESETS[i].name; }
+void EqApplyPreset(int i) {
+    if (i < 0 || i >= eqb::NUM_EQ_PRESETS) return;
+    for (int k = 0; k < eqb::EQ_BANDS; ++k) g.eqDb[k] = eqb::EQ_PRESETS[i].band[k];
+    g.eqPreset = i; g.eqVersion.fetch_add(1);
+}
+int IsoModeCount() { return ISO_MODES; }
+std::wstring IsoModeName(int slot) { return isoModeName(ISO_ORDER[slot]); }
+int IsoModeOfSlot(int slot) { return ISO_ORDER[slot]; }
+void SetTonePad(int x, int y) {   // setTonePad(): the pad tilts low/mid/high around their saved bases
+    const int lo = g.toneBaseLo.load(), mid = g.toneBaseMid.load(), hi = g.toneBaseHi.load();
+    x = clampInt(x, -std::max(toneRoom(TONE_RANGE - lo), toneRoom(hi + TONE_RANGE)), std::max(toneRoom(TONE_RANGE - hi), toneRoom(lo + TONE_RANGE)));
+    y = clampInt(y, -toneRoom(mid + TONE_RANGE), toneRoom(TONE_RANGE - mid));
+    g.tonePadX = x; g.tonePadY = y;
+    g.toneLo = toneOf(lo, -toneTilt(x)); g.toneHi = toneOf(hi, toneTilt(x)); g.toneMid = toneOf(mid, toneTilt(y));
+    ++g.toneVersion;
+}
+void ToneFlat() { for (int k = 0; k < 3; ++k) { toneBase(k) = 0; toneKnob(k) = 0; } g.tonePadX = 0; g.tonePadY = 0; ++g.toneVersion; }
+
+std::vector<Program> Programs() { CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED); fillProgramList(); std::vector<Program> o; for (auto& p : uiApps) o.push_back({ p.name, (unsigned)p.pid }); return o; }
+int ProgramSel() {
+    if (!gApp.chosen()) return 0;
+    for (size_t i = 0; i < uiApps.size(); ++i) if (uiApps[i].pid == gApp.pid) return (int)i + 1;
+    return 0;
+}
+void PickProgram(int sel) {
+    appNote.clear();
+    if (sel <= 0) { gApp.stop(); appWanted.clear(); }
+    else if (sel - 1 < (int)uiApps.size()) { appPick(uiApps[sel - 1]); appWanted = uiApps[sel - 1].name; }
+}
+std::wstring AppNote() {   // the note line of Orbital's "Program on the mic" section
+    std::wstring note = appNote.empty() ? std::wstring(L"Pick an app to play through your mic") : appNote;
+    if (gApp.active()) {
+        const bool heard = gApp.heard();
+        note = !heard ? L"Waiting for " + gApp.name + L" to play sound" : g.appOnly.load() ? L"Only you hear " + gApp.name : gApp.name + L" is on your mic";
+    } else if (gApp.chosen()) note = L"Opening " + gApp.name + L"...";
+    return note;
+}
+bool AppActive() { return gApp.active(); }
+void AppRepark() { appRepark(); }
+void AppTick() {
+    const ULONGLONG now = GetTickCount64();
+    if (gApp.finished()) { appNote = appEndNote(); gApp.stop(); appWanted.clear(); }
+    static ULONGLONG wantAt = 0;
+    if (!appWanted.empty() && !gApp.chosen() && now - wantAt >= 2000) { wantAt = now; appFollowWanted(); }
+    static ULONGLONG healAt = 0;
+    if (now - healAt >= 10000) { healAt = now; healPrograms(); }
+}
+
+void SetPitchSemitones(int st) {
+    const int base = voice::MASKS[std::clamp(g.voiceMask.load(), 0, voice::NUM_MASKS - 1)].ratio;
+    g.voiceRatio = std::clamp((int)std::lround(base * std::pow(2.0, st / 12.0)), 400, 2500);
+}
+std::wstring AppWanted() { return appWanted; }
+void WantProgram(const std::wstring& name) {   // appWant()
+    appWanted = name;
+    if (name.empty()) { gApp.stop(); return; }
+    if (gApp.chosen() && _wcsicmp(gApp.name.c_str(), name.c_str()) == 0) return;
+    gApp.stop();
+    if (!appFollowWanted()) appNote = L"Waiting for " + name + L" to open";
+}
+}

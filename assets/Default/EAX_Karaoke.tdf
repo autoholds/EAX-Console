@@ -1,0 +1,13 @@
+[VERSION]
+VERSION=1.0.28.0
+LANGUAGE=ENG
+[ENGINE]
+VER=1
+[BITMAP]
+16001=0,0,0,0,EAX_Bttn_Checkbox.bmp
+16003=8,8,8,8,EAX_Spr_WhiteBG.bmp
+16004=8,8,8,8,EAX_Spr_GreyBoxBG.bmp
+16006=12,0,12,0,EAX_Sldr_VolumeH.bmp
+16007=0,0,0,0,EAX_Bttn_Bal.bmp
+16000=0,0,0,0,EAX_Bttn_Mute.bmp
+16002=12,0,12,0,EAX_Sldr_Horizontal14.bmp

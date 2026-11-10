@@ -1,0 +1,12 @@
+[VERSION]
+VERSION=1.0.11.0
+LANGUAGE=ENG
+[ENGINE]
+VER=1
+[BITMAP]
+16006=0,0,0,0,EAX_Bttn_Player.bmp
+16001=0,0,0,0,EAX_Bttn_Checkbox.bmp
+16002=8,8,8,8,EAX_Spr_GreyBoxBG.bmp
+16003=8,8,8,8,EAX_Spr_WhiteBG.bmp
+16000=12,0,12,0,EAX_Sldr_VolumeH.bmp
+16004=12,0,12,0,EAX_Sldr_RecordH.bmp

@@ -1,0 +1,848 @@
+; Commonly used strings.
+[Version]
+Version=3.1.0.0
+Language=ENG
+
+[ENGINE]
+VER=1
+
+; Font
+; Format: Font ID=Height,Orientation,Weight,Italic,Underline,StrikeOut,FaceName
+; 1000=Standard Text
+; 1001=Standard Caption Text
+; 1002=Mixer Vertical Text
+; 1003 Console Caption Text
+[FONT]
+1000=-11,0,400,0,0,0,Tahoma
+;    Tahoma 11 Normal
+
+1001=-11,0,700,0,0,0,Tahoma
+;    Tahoma 11 Bold
+
+1002=-11,900,400,0,0,0,Tahoma
+;    Tahoma 11 Normal Vertical
+
+1003=-22,0,700,0,0,0,Arial
+;    Tahoma 22 Bold
+
+1004=-10,0,400,0,0,0,Tahoma
+;    Tahoma 10 Normal
+
+1005=-10,0,700,0,0,0,Tahoma
+;    Tahoma 10 Bold
+
+1006=-11,0,400,0,1,0,Tahoma
+;    Tahoma 11 Normal Italic
+
+1007=-10,0,400,0,0,0,Arial
+;    Arial 10 Normal
+
+1008=-10,0,700,0,0,0,Arial
+;    Arial 10 Bold
+
+1009=-11,0,400,0,0,0,Arial
+;    Arial 11 Normal
+
+1010=-11,0,700,0,0,0,Arial
+;    Arial 11 Bold
+
+1011=-11,0,700,1,0,0,Arial
+;    Arial 11 Bold Italic
+
+1012=-12,0,400,0,0,0,Arial
+;    Arial 12 Normal
+
+1013=-12,0,700,0,0,0,Arial
+;    Arial 12 Bold
+
+1014=-12,0,700,1,0,0,Arial
+;    Arial 12 Bold Italic
+
+1015=-14,0,400,0,0,0,Arial
+;    Arial 14 Normal
+
+1016=-14,0,700,0,0,0,Arial
+;    Arial 14 Bold
+
+1017=-14,0,400,1,0,0,Arial
+;    Arial 14 Bold Italic
+
+1018=-18,0,400,0,0,0,Arial
+;    Arial 18 Normal
+
+1019=-18,0,700,0,0,0,Arial
+;    Arial 18 Bold
+
+1020=-18,0,700,1,0,0,Arial
+;    Arial 18 Bold Italic
+
+1021=-36,0,400,0,0,0,Arial
+;    Arial 36
+
+1022=-36,0,700,0,0,0,Arial
+;    Arial 36 Bold
+
+1023=-36,0,400,1,0,0,Arial
+;    Arial 36 Italic
+
+
+[KEYBOARD]
+VK_LBUTTON=Left Mouse Button
+VK_RBUTTON=Right Mouse Button
+VK_CANCEL=ESC
+VK_MBUTTON=Middle Mouse Button
+VK_BACK=Backspace
+VK_TAB=Tab
+VK_CLEAR=Clear
+VK_RETURN=Enter
+VK_SHIFT=SHIFT
+VK_CONTROL=CTRL
+VK_MENU=Menu
+VK_PAUSE=Pause
+VK_CAPITAL=Caps Lock
+VK_ESCAPE=Esc
+VK_SPACE=Space
+VK_PRIOR=Page Up
+VK_NEXT=Page Down
+VK_END=End
+VK_HOME=Home
+VK_LEFT=Left
+VK_UP=Up
+VK_RIGHT=Right
+VK_DOWN=Down
+VK_SELECT=Select
+VK_PRINT=Print 
+VK_EXECUTE=Execute
+VK_SNAPSHOT=Snapshot
+VK_INSERT=Insert
+VK_DELETE=Delete
+VK_HELP=Help
+0=0
+1=1
+2=2
+3=3
+4=4
+5=5
+6=6
+7=7
+8=8
+9=9
+A=A
+B=B
+C=C
+D=D
+E=E
+F=F
+G=G
+H=H
+I=I
+J=J
+K=K
+L=L
+M=M
+N=N
+O=O
+P=P
+Q=Q
+R=R
+S=S
+T=T
+U=U
+V=V
+W=W
+X=X
+Y=Y
+Z=Z
+VK_NUMPAD0=Num 0
+VK_NUMPAD1=Num 1
+VK_NUMPAD2=Num 2
+VK_NUMPAD3=Num 3
+VK_NUMPAD4=Num 4
+VK_NUMPAD5=Num 5
+VK_NUMPAD6=Num 6
+VK_NUMPAD7=Num 7
+VK_NUMPAD8=Num 8
+VK_NUMPAD9=Num 9
+VK_MULTIPLY=*
+VK_ADD=+
+VK_SEPARATER=|
+VK_SUBTRACT=-
+VK_DECIMAL=.
+VK_DIVIDE=/
+VK_F1=F1
+VK_F2=F2
+VK_F3=F3
+VK_F4=F4
+VK_F5=F5
+VK_F6=F6
+VK_F7=F7
+VK_F8=F8
+VK_F9=F9
+VK_F10=F10
+VK_F11=F11
+VK_F12=F12
+VK_F13=F13
+VK_F14=F14
+VK_F15=F15
+VK_F16=F16
+VK_F17=F17
+VK_F18=F18
+VK_F19=F19
+VK_F20=F20
+VK_F21=F21
+VK_F22=F22
+VK_F23=F23
+VK_F24=F24
+VK_NUMLOCK=Num Lock
+VK_OEM_SCROLL=Scroll Lock
+
+[TEXT]
+; Command ID Strings
+; Playback
+3000=Play/Pause
+3001=Play
+3002=Pause
+3003=Record
+3004=Stop
+3005=Track Forward 
+3006=Track Reverse
+3007=Next
+3008=Previous
+3009=Fast Forward
+3010=Rewind
+3011=Speed Forward
+3012=Speed Backward
+3013=Slow Forward
+3014=Slow Backward
+3015=Step Forward
+3016=Step Backward
+3017=Eject
+3018=Track Beginning
+3019=Track End
+3020=First Track
+3021=Last Track
+3022=Seek
+
+3050=Play Now
+3051=Add To Play
+3052=Preview
+
+3060=Now Playing
+3061=Now Transferring
+3062=Transfer to
+3063=Receive
+
+
+; Play Modes
+3080=Play Mode
+3081=Normal
+3082=Play Track Once
+3083=Shuffle Repeat
+3084=Shuffle
+3085=Repeat Track
+3086=Repeat All
+3087=Repeat A-B
+
+; Bookmark
+3100=Set Bookmark
+3101=Go To Bookmark
+3102=Delete Bookmark
+
+; THX
+3120=THX Setup Console
+
+
+; EAX
+3150=EAX Console
+3151=Enable EAX
+3152=Audio Effects
+3153=Enable Audio Effects
+3154=Time Scaling
+3155=Enable Time Scaling
+3156=CMSS 3D
+3157=Enable CMSS 3D
+3158=Audio Clean-up
+3159=Enable Audio Clean-up
+3160=SVM
+3161=Enable Smart Volume Management
+
+3190=Crossfading
+3191=Enable Crossfading
+
+; Master Volume
+3200=Mute All
+3201=Volume Up
+3202=Volume Down
+3203=Volume
+3204=Mixer
+3205=Speaker Settings
+3206=Speaker Calibrator
+3207=Volume Peak Meter
+3208=Diagnostics
+
+; Volume Source
+3210=Treble
+3211=Bass
+3212=Microphone
+3213=Line-In
+3214=Wave
+3215=MIDI
+3216=CD Digital
+3217=CD Audio
+3218=Auxiliary
+3219=SPIDIF-In
+3220=TAD-In
+3221=TAD-Out
+3222=I2S-In
+
+3230=Front Center Volume
+3231=Rear Center Volume
+3232=Subwoofer Volume
+
+; Recording
+3360=Recording Source
+3361=Recording Format
+3362=Recording Time
+3363=Recording Track Title
+3364=Recording Meter
+3365=Recording Level
+3366=Recording Level Up
+3367=Recording Level Down
+
+3370=ARVL
+3371=Enable Auto Recording Volume Limiter (ARVL)
+3372=Monitor
+3373=Enable Monitor
+3374=Record Sync
+3375=Enable Record Sync
+3376=Record Settings
+
+; DVD Video
+3380=DVD Video Menu
+3381=Chapter
+3382=DVD Video Title
+3383=Subtitle
+3384=Angle
+3385=Audio Mode
+3386=Language
+
+; Navigation
+3400=Up
+3401=Down
+3402=Left
+3403=Right
+3404=Page Down
+3405=Page Up
+3406=Home
+3407=End
+3408=Select
+3409=Return
+3410=Back
+3411=Forward
+3412=Stop Now
+3413=Refresh
+3414=Home Page
+
+; Popup Menu
+3449=System Menu
+3450=File
+3451=Source
+;3452=Play	
+3453=Edit
+3454=View
+3455=Tools
+3456=Window
+3457=Help
+
+; Windowing
+3470=Size
+3471=Move
+3472=Minimize
+3473=Maximize/Restore
+3474=Close
+3475=Close Panel
+3476=Open Panel
+3477=Full Screen
+3478=Wide Screen
+3479=Zoom In
+3480=Zoom Out
+
+3790=Edit Genre...
+3791=Edit Artist...
+3792=Edit Album...
+
+; Others
+3700=Visit Creative.com
+3701=How Do I...
+3702=Update
+3703=Register
+3704=Properties
+3705=Settings
+3706=Record Options
+3707=Edit Properties...
+3708=Switch Display
+
+3710=AudioSync
+
+3715=Restore Defaults
+3716=Save As Defaults
+3717=Backup
+3718=Restore Backup
+
+3720=Burn Now
+3721=Burn CD
+
+3725=Rip Now
+3726=Rip To
+3727=CDDB
+3728=Submit
+3729=Print CD Cover
+
+3730=Import
+3731=Export
+3732=Send To
+3733=Send To Playlist
+
+3735=New Playlist
+3736=Save As Playlist
+
+3739=New Folder
+
+3740=New Burnlist
+3741=Save Burnlist
+3742=New Audio CD Burnlist
+3743=New MP3 CD Burnlist
+
+3750=Add
+3751=Delete
+3752=Delete All
+3753=Rename
+3754=Convert
+
+57600=New
+57601=Open
+57603=Save
+57604=Save As
+57606=Print Setup
+57607=Print
+57609=Print Preview
+
+57632=Clear
+57633=Clear All
+57634=Copy
+57635=Cut
+57636=Find
+57637=Paste
+57641=Replace
+57642=Select All
+57643=Undo
+57644=Redo
+
+57664=About
+57670=Help Contents
+
+; Products
+6000=SoundBlaster Live!
+6001=SoundBlaster Audigy
+6002=SoundBlaster Extigy
+6003=Apollo
+
+6050=NOMAD
+6051=NOMAD 2
+6052=NOMAD 2 MG
+
+6070=NOMAD Jukebox
+6071=NOMAD Jukebox 2
+6072=NOMAD Jukebox 3
+
+6090=Webcam
+6091=WebCam Mini
+6092=WebCam Go
+6093=PCCam
+
+6990=Creative
+6991=Organizer
+6992=Player
+
+; Sources
+7000=Sources
+7001=All Audio
+7002=All Photo
+7003=All Video
+7004=PC Music Library
+7005=PC Photo Library
+7006=PC Video Library
+7007=Mobile Music Library
+7008=Audio CD
+7009=Video CD
+7010=MP3 CD
+7011=Data CD
+7012=DVD Audio
+7013=DVD Video
+7014=CD Burner
+7015=My Computer
+7016=Removable Hard Disk
+7017=Disc
+
+; Objects
+7100=Playlists
+7101=Playlist
+7102=Burnlists
+7103=Burnlist
+7104=Record Lists
+7105=Record List
+7106=Albums
+7107=Album
+7108=Artists
+7109=Artist
+7110=Genres
+7111=Genre
+7112=Music
+7113=Photo
+7114=Video
+7115=Recordings
+7116=Music Recordings
+7117=Voice Recordings
+7118=Video Recordings
+7119=[All Genres]
+7120=[All Artists]
+7121=[All Albums]
+7122=Files
+7123=All Tracks
+7124=Track
+7125=Tracks
+7126=Folder
+7127=Folders
+7128=Content
+7129=Contents
+
+; Tooltip
+7300=Track Number
+7301=Track Title
+7302=Track Time
+7304=Track Format
+7305=Track Length
+
+; Header Fields
+7350=No.
+7351=Title
+7352=Length
+7353=File Name
+7354=Type
+7355=File Size
+7356=Size (MB)
+7357=Modified
+7358=Location
+7359=Format
+7360=Year
+7361=Date
+
+; Presets
+7380=Presets
+7381=Active Preset
+
+; format
+7390=Bitrate Type
+7391=Constant
+7392=Variable
+7393=Sampling Frequency
+7394=Bits Per Sample
+7395=Quality
+7396=Constant bitrate
+7397=Variable bitrate
+7398=DRM enabled
+7399=DRM disabled
+
+; Channels
+7400=Channel
+7401=Channels
+7402=Mono
+7403=Stereo
+7404=Multi-channels
+
+; Mixer
+7410=Master Control
+7411=Source Control
+7412=Speaker Volume Controls
+7413=Balance/Fade
+7415=Mute
+7416=Advanced Controls
+7417=Play Volume Source
+7418=Play Volume Mute
+
+;Speakers
+7420=Speaker Selection
+7421=Speaker/Headphone Selection
+7422=Speaker Calibrator Selection
+7423=Digital Output Only
+7424=Speaker Test
+7425=Noise
+7426=Bass Management
+7427=Crossover Frequency
+7428=Bass Redirect
+7429=Calibrate
+7430=Calibrated
+7431=Not Calibrated
+7432=Speaker Settings
+7433=Auto-switch to headphone mode when using headphones.
+7434=Mute speakers when using headphones.
+7435=Speaker Calibration Summary
+7436=Synchronize with Control Panel
+
+7440=Speaker Mode
+7441=Headphone Mode
+7442=2 Speaker Mode
+7443=4 Speaker Mode
+7444=5.1 Speaker Mode
+7445=6.1 Speaker Mode
+
+; EAX
+7450=CMSS 2
+7451=Stereo Focus
+7452=CMSS
+
+7460=Click Meter
+7461=Click Removal
+7462=Noise Removal
+7463=Noise Band Adjust
+7464=Clean-up External Sources
+7465=Audio Source
+7466=Source Level
+7467=Listen to the clicks removed
+7468=Clean-up
+
+7470=Original Speed
+7471=Scale Factor
+
+7480=Effects Amount
+7481=Mic Reverb Amount
+7482=Key (Pitch Shift)
+7483=Environment Amount
+7484=Effects
+
+7485=EQ Adjust
+
+7490=Audio Effects are high quality music enhancement effects created by the powerful audio engine in your sound device.
+7491=Audio Clean-up enables the removal of unwanted noises like "clicks" and "pops" in a digital audio file or audio from external sources.
+7492=Time Scaling allows the user to speed up or slow down music without changing the pitch (for WAV, MP3, Audio CD and VCD).
+7493=CMSS 3D creates surround sound effect on your headphone or upmixes stereo music to multi-channel surround sound on a 4.1, 5.1 or 6.1 speaker system. CMSS 2 features added ambient effects and is ideal for listening to DVD movies with Dolby Digital soundtracks.
+
+7500=Graphic Equalizer
+
+7800=Get CD information from CDDB2
+7801=Submit CD information to CDDB2
+7802=CD Cover
+7803=CD Album
+7804=CD Artist
+7805=CD Genre
+
+7810=Import Tracks
+7811=Import Playlist
+7812=Import from PlayCenter
+
+7900=Show Now Playing
+7901=Show Now Transferring
+7902=Show Video
+
+
+; Long Names
+8000=Smart Volume Management
+8001=Automatic Recording Volume Limiter
+
+; File type
+8500=All Files (*.*)
+8501=AC3 (*.ac3)
+8502=MIDI Files (*.mid)
+8503=MP3 Files (*.mp3)
+8504=WAV Files (*.wav)
+8505=Windows Media Audio (*.wma)
+8506=CD Audio (*.cda)
+
+; General strings
+1=:
+2=...
+
+9000=Start
+9001=OK
+9002=Cancel
+9003=Apply
+9004=Finish
+9005=< Back
+9006=Next >
+9007=Low
+9008=High
+9009=-
+9010=+
+9011=On/Off
+9012=On
+9013=Off
+9014=Front
+9015=Rear
+9016=Center
+9017=Fast
+9018=Slow
+9019=Default
+9020=Basic
+9021=Advanced
+9022=0
+9023=50
+9024=100
+9025=0.1
+9026=1.0
+9027=10.0
+9028=Total
+
+9050=Hz
+
+; Miscellaneous Strings
+9400=Changes have been made.\n\nDo you want to save before exiting?
+9401=Select a task
+9402=Don't ask me again
+9403=Status
+9404=Summary
+9405=Others
+9406=Mode
+9407=You need to restart the computer for the changes to take effect.
+9408=<Unknown>
+9409=Check for updates
+9410=Options
+9411=Always on top
+9412=Load on Windows start-up
+9413=Show system tray icon
+9414=Show taskbar icon
+9415=Auto-hide
+9416=Select disc drive to Eject
+9417=Shutdown
+9418=NOTE: This feature requires Creative MediaSource Player
+9419=None
+9420=Progress
+9421=Select Content To Play
+9422=Play Control
+9422=Bookmark
+9423=Lyrics
+
+9430=Show/Hide Right Panel
+9431=Switch to Organizer
+9432=Switch to Player
+
+9450=Playing...
+9451=Stopped
+9452=Paused
+9453=Completed
+9454=Cancelled
+9455=Pending
+9456=Processing...
+9457=Preparing...
+9458=Continue
+9459=Initializing...
+9460=Burning...
+9461=Creating CD...
+9462=Closing CD...
+9463=Creating Session...
+9464=Closing Session...
+9465=Creating Track...
+9466=Closing Track...
+9467=Erasing CD-RW...
+9468=Writing Table of Content...
+9469=Checking for CD...
+
+
+9480=Show Detection Window to select task to perform
+9481=Activator
+9482=Show %s Activator
+9483=Detect for %s
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Engine Versioning Strings
+;
+9700=Engine Installed
+9701=%s (Version %s)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Formatting strings
+;
+	; Menu item text with accelerator. For example: "Play	(Ctrl+P)"
+9800=%1s\t%2s
+	; About <Application name> menu item
+9810=About %s
+	; Help on <Application name> menu item
+9811=Help on %s
+
+9812=Send to %s
+9813=Visit %s
+
+	; Wizard steps
+9820=Step %1d of %2d : %s
+
+9821=Status: %s
+9822=Track: %d/%d
+9823=%d %%
+9824=%s kHz
+9825=%d kbps
+9826=Quality: %s
+9827=Bits Per Sample: %d
+9828=Play From [%c:] %s
+9839=%s bytes
+9840=%s KB
+9841=%s MB
+9842=%s GB
+9843=%s detected
+9844=%02d:%02d:%02d
+9845=Drive (%c:)
+9846=No. of Tracks: %d
+9847=Total Time : %02d:%02d mins
+9848=%d mins
+9849=No. of Files: %d
+9850=Time left: %2d seconds 
+9851=[%c:] %s
+9852=%s quality
+;IDS_CT_RIP_FORMAT_X_X_X_X. Example: MP3, Stereo, Constant bitrate, 128 kbps
+9853=%1s, %2s, %3s, %4s
+
+; error strings
+10000=Error
+10001=Unable to load needed components. Please reinstall the application.
+10002=The operation was unsuccessful. Please try again or reinstall the application.
+10003=Unable to detect any SoundBlaster series of audio cards. The application will exit.
+10004=The selected sound card is not supported by the application.
+10005=Unable to load the user interface. Please reinstall the application.
+10006=Unable to load DirectShow engine. Please install DirectShow and try again.
+10007=Unknown error encountered. Please try again.
+10008=Could not read this Video CD correctly. The disc may be corrupted.
+10009=Unable to open the necessary device(s) for playback. It may be in use or unavailable.
+10010=Unable to find a suitable decoder for this track.
+10011=Unable to find any combination of filters to playback this track.
+10012=Unable to recognize the format of this file.
+10013=Unable to playback current track. Please ensure that the file exists.
+10014=Unable to playback current track. The file may be missing or corrupted.
+10015=No necessary rights available to playback this secure file.
+10016=Not enough memory to perform task. Free up memory by closing other applications and try again.
+10017=Not enough disk space to perform task. Free up disk space by deleting unwanted files and try again.
+10018=Missing CD. Please load the correct CD and try again.
+10019=There is not enough disk space at the destination for this transfer.
+10020=An error has occurred while transferring this file.
+10021=An error has occurred while ripping this track.
+10022=An error has occurred while uploading this track.
+10023=An error has occurred while downloading this track.
+10024=An error has occurred while adding this track to database.
+10025=Failed to acquire necessary license to playback this file.
+10026=Unable to find track or file in the source location.
+10027=This feature is not available because no supported Audio Device is detected.
+10028=This application is unable to launch because no supported Audio Device is detected. The application will exit.
+
+; mixer errors
+10100=Unable to find or set the default mixer. Please check that your sound card is properly installed.
+10101=Unable to set the mixer control. Please check that your sound card is properly installed.
+10102=Unable to set the sound balance for this mixer. Please check that your sound card is properly installed.
+10103=Unable to restore mixer settings to default. Please check that your sound card is properly installed.
+10104=Unable to locate some sound card drivers. Please reinstall your sound card and try again
+10105=Unable to change the sound device to your selected device.
+10106=Unable to initialize the sound drivers. Please reinstall the sound drivers and try again.
+
+; Speaker errors
+10110=Unable to restore speaker settings to default. Please check that your sound card is properly installed.
+10111=Unable to restore speaker and headphones settings to default.
+10112=Unable to restore bass settings to default.
+
+// eax errors
+10130=Unable to open EAX console.
