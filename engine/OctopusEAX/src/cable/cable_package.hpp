@@ -2,7 +2,6 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <softpub.h>
-#include <urlmon.h>
 #include <wininet.h>
 #include <wintrust.h>
 #include <wincrypt.h>
@@ -18,12 +17,13 @@
 #pragma comment(lib, "wintrust.lib")
 #pragma comment(lib, "crypt32.lib")
 #pragma comment(lib, "oleaut32.lib")
+#pragma comment(lib, "wininet.lib")
 
 namespace cable {
 
 static const wchar_t* PAGE_URL = L"https://vb-audio.com/Cable/";
 static const wchar_t* PACK_BASE = L"https://download.vb-audio.com/Download_CABLE/VBCABLE_Driver_Pack";
-static const int KNOWN_PACKS[] = {45, 43};
+static const int KNOWN_PACKS[] = {48, 47, 46, 45, 43};
 
 inline std::wstring folder() {
     wchar_t la[MAX_PATH] = {0};
@@ -70,9 +70,29 @@ inline std::wstring setupIn(const std::wstring& dir) {
 }
 
 inline bool fetch(const std::wstring& url, const std::wstring& file) {
-    DeleteUrlCacheEntryW(url.c_str());
     DeleteFileW(file.c_str());
-    return SUCCEEDED(URLDownloadToFileW(nullptr, url.c_str(), file.c_str(), 0, nullptr)) && sizeOf(file) > 0;
+    HINTERNET sess = InternetOpenW(L"Mozilla/5.0", INTERNET_OPEN_TYPE_PRECONFIG, nullptr, nullptr, 0);
+    if (!sess) return false;
+    const DWORD iflags = INTERNET_FLAG_RELOAD | INTERNET_FLAG_NO_CACHE_WRITE |
+                         INTERNET_FLAG_SECURE |
+                         INTERNET_FLAG_IGNORE_CERT_CN_INVALID |
+                         INTERNET_FLAG_IGNORE_CERT_DATE_INVALID;
+    HINTERNET req = InternetOpenUrlW(sess, url.c_str(), nullptr, 0, iflags, 0);
+    bool ok = false;
+    if (req) {
+        FILE* f = _wfopen(file.c_str(), L"wb");
+        if (f) {
+            DWORD got; BYTE buf[65536];
+            ok = true;
+            while (InternetReadFile(req, buf, sizeof buf, &got) && got > 0)
+                if (fwrite(buf, 1, got, f) != got) { ok = false; break; }
+            fclose(f);
+            if (!ok) DeleteFileW(file.c_str());
+        }
+        InternetCloseHandle(req);
+    }
+    InternetCloseHandle(sess);
+    return ok && sizeOf(file) > 0;
 }
 
 inline std::vector<std::wstring> packUrls(const std::wstring& pageFile) {
