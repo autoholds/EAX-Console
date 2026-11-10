@@ -2963,7 +2963,7 @@ static void paintComboFace(HWND h, HDC hdc, int openAs = -1) {
     }
     bool hint = false;
     if (h == hMaskBox && (txt[0] == 0 || wcscmp(txt, L"X-Fi") == 0)) { wcscpy_s(txt, L"X-Fi"); hint = true; }
-    if (h == hOwnBox && txt[0] == 0) { wcscpy_s(txt, L"Orbital masks"); hint = true; }
+    if (h == hOwnBox && txt[0] == 0) { wcscpy_s(txt, L"Octopus masks"); hint = true; }
     const int icon = boxIcon(h);
     if (icon != ICO_NONE) drawIcon(hdc, 15.0f, (rc.top + rc.bottom) / 2.0f, icon, hint ? C_DIM : C_GOLD, C_BACK);
     if (txt[0]) {

@@ -45,7 +45,7 @@ The result is three standalone executables that work on any modern Windows PC wi
 - Smooth mode and width transitions — no clicks or zipper noise
 
 **Karaoke tab**
-- 42 voice masks (18 X-Fi + 24 Orbital)
+- 42 voice masks (18 X-Fi + 24 Octopus)
 - Pitch shift (Hz), size (%), speed (%), voice changer
 - Glitch / hold-to-repeat with 4 styles
 - Vocal tone pad (deeper/sharper, more/less middle)

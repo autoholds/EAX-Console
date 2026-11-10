@@ -228,7 +228,7 @@ inline void BuildPages() {
     Check(1, L"Sound clips", X + 136, Y + 3, 86, Gbit("changeOn", 2), Sbit("changeOn", 2));
     Check(1, L"Program sound", X + 224, Y + 3, 104, Gbit("changeOn", 4), Sbit("changeOn", 4));
     std::vector<std::wstring> xfi, own; for (int i = 0; i < orb::XfiMaskCount(); i++) xfi.push_back(orb::MaskName(i)); for (int k = 0; k < orb::OwnMaskCount(); k++) own.push_back(orb::MaskName(orb::OwnMask(k)));
-    Label(1, L"X-Fi masks", X, Y + 30, 150, true); Label(1, L"Orbital masks", X + 162, Y + 30, 150, true);
+    Label(1, L"X-Fi masks", X, Y + 30, 150, true); Label(1, L"Octopus masks", X + 162, Y + 30, 150, true);
     List(1, X, Y + 50, 150, 190, xfi, [] { int m = orb::GetI("voiceMask"); return m < orb::XfiMaskCount() ? m : -1; }, [](int i) { orb::PickMask(i); });
     List(1, X + 162, Y + 50, 160, 190, own, [] { int m = orb::GetI("voiceMask"); for (int k = 0; k < orb::OwnMaskCount(); k++) if (orb::OwnMask(k) == m) return k; return -1; }, [](int k) { orb::PickMask(orb::OwnMask(k)); });
     Group(1, X - 14, Y + 266, 340, 118, L"Tone");
