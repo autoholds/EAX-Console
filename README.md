@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/Official/Logo_EAX_Console.png" alt="EAX Console" width="320"/>
+  <img src="assets/screenshot_eax.png" alt="EAX Console" width="500"/>
 </p>
 
 <h1 align="center">EAX Console</h1>
