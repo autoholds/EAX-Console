@@ -263,7 +263,6 @@ inline void BuildPages() {
     Slider(2, X + 70, Y + 68, 440, 0, 1000, Gi("appGain"), Si("appGain"), Num);
     for (int v : { 100, 500, 1000 }) Label(2, std::to_wstring(v).c_str(), X + 70 + 6 + 434 * v / 1000 - 12, Y + 92, 40);
     Check(2, L"Only I hear it", X + 70, Y + 126, 200, Gi("appOnly"), [](int v) { orb::SetI("appOnly", v); orb::AppRepark(); });
-    Check(2, L"Mute from monitor", X + 290, Y + 126, 200, Gi("appMute"), [](int v) { orb::SetI("appMute", v); });
     Radio(2, L"Hear it through the card", X + 70, Y + 158, 220, Gi("appHear"), [](int) { orb::SetI("appHear", 1); orb::Restart(); orb::AppRepark(); });
     Radio(2, L"Hear it from the app", X + 310, Y + 158, 220, [] { return orb::GetI("appHear") ? 0 : 1; }, [](int) { orb::SetI("appHear", 0); orb::Restart(); orb::AppRepark(); });
     Text(2, X, Y + 190, 620, 30, [] { return std::wstring(L"Its sound goes into your mic. With Only I hear it, the sound stays in your headphones and never reaches the mic."); });

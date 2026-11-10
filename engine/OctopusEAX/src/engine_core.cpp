@@ -305,7 +305,6 @@ struct Shared {
     std::atomic<bool> clipToMic{true};
     std::atomic<bool> appHear{false};
     std::atomic<bool> appOnly{false};
-    std::atomic<bool> appMute{false};
     std::atomic<bool> monMute{false};
     std::atomic<int>  pitchHz{0};
     std::atomic<int>  voiceSize{100};
@@ -1326,14 +1325,13 @@ static void audioThread() {
                         else { std::fill(aL.begin(), aL.end(), 0.0f); std::fill(aR.begin(), aR.end(), 0.0f); }
                         const float cg = micGainFor(g.clipGain.load());
                         const int appV = g.appGain.load();
-                        const bool appMuted = g.appMute.load();
-                        const bool hearApp = appToMonitor(), appOnly = g.appOnly.load(), appDryMon = hearApp && gApp.parking.load() && !appMuted;
+                        const bool hearApp = appToMonitor(), appOnly = g.appOnly.load(), appDryMon = hearApp && gApp.parking.load();
                         const float agCab = micGainFor(appV);
 
                         const bool toMic = g.clipToMic.load(), clipHear = g.clipHear.load(), self = g.monitor.load();
                         const bool clipMine = !toMic && clipHear, appMine = appOnly && hearApp;
                         const bool roomToCable = (toMic && songLive) || (appLive && !appOnly);
-                        const bool roomToMon = (clipHear && toMic && songLive) || (hearApp && appLive && !appOnly && !appMuted);
+                        const bool roomToMon = (clipHear && toMic && songLive) || (hearApp && appLive && !appOnly);
 
                         for (UINT32 i = 0; i < frames; ++i) {
                             cL[i] *= cg; cR[i] *= cg;
@@ -1469,7 +1467,7 @@ static const KeyDef kKeys[] = {
     {"eq4", &g.eqDb[4], nullptr}, {"eq5", &g.eqDb[5], nullptr}, {"eq6", &g.eqDb[6], nullptr}, KI(eqLevel), KB(eqOn), KI(eqPreset),
     KB(isolate), KI(isoMode), KI(isoLevel), KI(gateLevel), KI(gateLo), KI(gateMid), KI(gateHi), KI(gateOut),
     KB(toneOn), KI(toneLo), KI(toneMid), KI(toneHi), KI(tonePadX), KI(tonePadY), KI(toneBaseLo), KI(toneBaseMid), KI(toneBaseHi),
-    KI(clipGain), KB(clipHear), KB(clipToMic), KB(appHear), KB(appOnly), KB(appMute), KB(monMute), KI(appGain), KI(clipSpeed), KB(clipKeepPitch), KB(clipFollow),
+    KI(clipGain), KB(clipHear), KB(clipToMic), KB(appHear), KB(appOnly), KB(monMute), KI(appGain), KI(clipSpeed), KB(clipKeepPitch), KB(clipFollow),
     KI(pitchHz), KI(voiceSize), KI(voiceHz), KI(voiceMacro), KI(voiceRatio), KI(voiceMask), KI(voiceTargetHz), KI(voiceSpeed), KB(voiceKeepPitch),
     KI(voiceLagMs), KB(glitchHold), KB(glitchKeyHeld), KB(glitchArmed), KI(glitchKey), KI(glitchStyle), KI(meterPeak),
 };
