@@ -152,5 +152,6 @@ VB-Audio Virtual Cable is the bridge: EAX Console writes your processed voice to
 
 ## Thanks
 
-**[@TWODEMONBROTHERS](https://github.com/TWODEMONBROTHERS/)** — built the full reverb system and the equalizer .
-**[@ALMASONYH](https://github.com/ALMASONYH/)** — the Orbital engine this runs on.
+**[@TWODEMONBROTHERS](https://github.com/TWODEMONBROTHERS/)**
+
+**[@ALMASONYH](https://github.com/ALMASONYH/)**
