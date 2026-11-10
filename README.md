@@ -152,6 +152,5 @@ VB-Audio Virtual Cable is the bridge: Orbital writes your processed voice to a v
 
 ## Thanks
 
-**[@TWODEMONBROTHERS](https://github.com/TWODEMONBROTHERS/)** — built the full reverb system and the equalizer. The core of what makes this sound right is his work.
-
+**[@TWODEMONBROTHERS](https://github.com/TWODEMONBROTHERS/)** — built the full reverb system and the equalizer .
 **[@ALMASONYH](https://github.com/ALMASONYH/)** — the Orbital engine this runs on.
