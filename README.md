@@ -90,28 +90,14 @@ Settings and saved setups are stored in `%APPDATA%\CreativeEAXClone`.
 
 ## Building from source
 
-### Requirements
-
-- [MSYS2](https://www.msys2.org/) with the `mingw-w64-x86_64-gcc` package at `C:\msys64\mingw64\bin`
-
-### Build all three executables + assemble publish folder
-
-```bat
-.\publish.bat
-```
-
-Output is `publish\` (ready to ship) and `publish.zip`.
-
-On the first run, `publish.bat` copies the Creative theme files from your installed drivers into `creative_cache\`. Subsequent builds use the cache even if the drivers are uninstalled.
-
-### Manual build (EAX.exe only)
+Requires MSYS2 mingw64 (`g++`, `windres`) at `C:\msys64\mingw64\bin`.
 
 ```bat
 set GXX=C:\msys64\mingw64\bin\g++.exe
 set RC=C:\msys64\mingw64\bin\windres.exe
 
 %RC% -I res res\eax_res.rc -O coff -o res\eax_res.o
-%GXX% -O2 -std=c++17 -c engine\src\engine_core.cpp -o res\engine_core.o -Iengine\shim -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS -w
+%GXX% -O2 -std=c++17 -c engine\OctopusEAX\src\engine_core.cpp -o res\engine_core.o -Iengine\OctopusEAX\shim -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS -w
 %GXX% -O2 -std=c++17 -municode -mwindows -static -static-libgcc -static-libstdc++ ^
     src\eax_console.cpp res\eax_res.o res\engine_core.o -o EAX.exe ^
     -lwinmm -lcomdlg32 -lcomctl32 -lgdiplus -lgdi32 -luser32 -lole32 ^
@@ -126,26 +112,30 @@ set RC=C:\msys64\mingw64\bin\windres.exe
 ```
 EAX UI/
 ├── src/
-│   ├── eax_console.cpp       Main EAX Console window + all 5 tabs
-│   ├── config_window.h       Audio Configuration dialog
-│   ├── settings_store.h      Settings persistence (settings.ini + Setups/)
-│   ├── media_bar.h           Media player bar
-│   ├── eq_console.cpp        CTEQ Graphic Equalizer
-│   ├── mixer_console.cpp     Surround Mixer
-│   └── portable_paths.h      Locates Creative theme files (bundled or installed)
-├── engine/
-│   └── engine/               Orbital audio engine (WASAPI, C++17)
-│       └── src/
-│           ├── engine_core.cpp
-│           ├── engine_api.h
-│           └── mixing/       EQ, CMSS 3D, Stereo Surround, soft clip
-├── assets/                   UI sprites and icons (Creative skin)
-├── assets_original/          Fallback assets
-├── eq_assets/                CTEQ equalizer assets
-├── mix_assets/               Surround Mixer assets
-├── res/                      Windows resources (.rc, .ico)
-├── publish.bat               Full release build script
-└── build_all.bat             Quick dev build (no publish folder)
+│   ├── eax_console.cpp         main window + all 5 tabs
+│   ├── config_window.h         Audio Configuration dialog
+│   ├── settings_store.h        settings.ini persistence + named setups
+│   ├── shared_state.h          shared UI state
+│   ├── media_bar.h             media player bar
+│   ├── eq_console.cpp          CTEQ Graphic Equalizer
+│   ├── mixer_console.cpp       Surround Mixer
+│   └── portable_paths.h        resolves Creative theme file paths
+├── engine/OctopusEAX/
+│   ├── src/
+│   │   ├── engine_core.cpp     audio engine entry point
+│   │   ├── engine_api.h        public API used by the UI
+│   │   ├── mixing/             CMSS 3D, Stereo Surround, EQ chain, soft clip
+│   │   ├── reverb/             EAX reverb rooms
+│   │   ├── voice/              masks, pitch, speed, glitch
+│   │   ├── isolation/          noise isolation
+│   │   ├── equalizer/          graphic EQ
+│   │   └── playback/           sound clips, program tap, recorder
+│   └── shim/                   WASAPI compatibility header
+├── assets/                     UI sprites and icons
+├── assets_original/            fallback assets
+├── eq_assets/                  CTEQ assets
+├── mix_assets/                 Surround Mixer assets
+└── res/                        .rc and .ico files
 ```
 
 ---
